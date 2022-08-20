@@ -18,12 +18,16 @@ abstract class Base
 
     protected array | string | int $data = '';
 
+    // COMPONENT GROUP FIELDS :
+    /* Bu değişken ile aynı komponent birden fazla defa örneklense bile aynı style,script kodlarını
+     * eklenmemesi için kayıt tutuyoruz. */
     private static array $componentGroupDefaultFields = [
         'stylesheetImportStatus' => false,
         'stylesheetOnce'         => true,
         'scriptOnce'             => false,
         'scriptImportStatus'     => false
     ];
+
 
 
 
@@ -43,6 +47,7 @@ abstract class Base
         $this->selectedComponentGroup = &self::$componentGroup[$this->groupName];
 
     }
+
 
 
 
@@ -140,6 +145,14 @@ abstract class Base
 
         $this->selectedComponentGroup['stylesheetImportStatus'] = true;
         $this->css();
+    }
+
+
+
+
+    public function styleOnce(bool $status):self{
+        $this->selectedComponentGroup['stylesheetOnce'] = $status;
+        return $this;
     }
 
 
