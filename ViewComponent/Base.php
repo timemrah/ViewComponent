@@ -47,6 +47,8 @@ abstract class Base
 
 
     // SHORTCUT OF NEW INSTANCE METHOD :
+    /* Komponent nesnemizin örneklenmesini ve zincir metodlarının direk kullanılması için hızlı kısa bir örnekleme
+     * metodudur. */
     public static function new($tagName = 'div'):self{
         $className = get_called_class();
         $classExp = explode('\\', $className);
@@ -57,6 +59,8 @@ abstract class Base
 
 
 
+    // DATA :
+    // Komponentin html çıktısında kullanılacak data'ları set etmenizi sağlar.
     public function data($data):self{
         $this->data = $data;
         return $this;
@@ -65,6 +69,10 @@ abstract class Base
 
 
 
+    // ECHO HTML :
+    /* Çıktılanmayı bekleyen tüm Html taraflı kodları echo'lar.
+     * Önemli olan şey burada asla return ile değer dönmez. Sadece Echo ile kodlar ekrana basılır.
+     * */
     public function put($inner = null):void{
 
         if(!$inner) $inner = fn() => false;
@@ -83,6 +91,7 @@ abstract class Base
 
 
     // CLASS :
+    // En dış DOM elementine class ekler
     public function class($class): self {
         if(!is_array($class)){
             $class = [$class];
@@ -99,6 +108,10 @@ abstract class Base
 
 
     // STYLE :
+    /* Komponente özel izole css eklenmesini sağlar.
+     * Yazılan kodlar DOM style kodları arasına yazılmaz.
+     * <style> tagı arasına özel #id değeriyle kodlar konumlanır.
+     * */
     public function style($css):self{
         if(!is_array($css)){
             $css = [$css];
@@ -133,6 +146,7 @@ abstract class Base
 
 
     // ATTRIBUTES :
+    // Komponentin en dış DOM elementine attribut'ler ekler.
     public function attr($keyValue):self{
         $this->attrs += $keyValue;
         return $this;
