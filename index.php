@@ -38,6 +38,8 @@ BoxWrapper1::new()->data('Resimlerim')->put(function() use ($items){
     }
 });
 
+BoxWrapper1::new()->data('Deneme')->style('{margin-top:20px;}')->put();
+
 ?>
 </body>
 </html>

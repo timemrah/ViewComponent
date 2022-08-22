@@ -9,6 +9,13 @@ class Item1 extends Base
 
 
 
+    public static function new($tagName = 'div'): self {
+        return new self($tagName);
+    }
+
+
+
+
     protected function html($inner = null) : void{ ?>
 <div class="title"><?=$this->data['title']?></div>
 <div class="img-wrapper">

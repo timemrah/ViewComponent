@@ -7,7 +7,7 @@ abstract class Base
 
 
     // VARIABLES :
-    protected string $id, $groupName, $wrapperTagName;
+    protected string $id, $groupName, $wrapperTagName, $calledClassName;
     static protected array $componentGroup = [];
 
     private array
@@ -32,12 +32,14 @@ abstract class Base
 
 
     // CONSTRUCTOR :
-    public function __construct($cssClass, $tagName){
+    public function __construct($tagName = 'div'){
 
-        $this->id        = uniqid('c-');
-        $this->groupName = $cssClass;
+        $this->calledClassName = $this->getCalledClassName();
+
+        $this->id             = uniqid('c-');
         $this->wrapperTagName = $tagName;
-        $this->class($cssClass);
+        $this->groupName      = $this->calledClassName;
+        $this->class($this->calledClassName);
 
         // Component group yönetimi ve seçilimi :
         // Aynı komponent için sayfaya defalarca aynı style kodlarının yazımını engellemek için
@@ -51,14 +53,9 @@ abstract class Base
 
 
 
-    // SHORTCUT OF NEW INSTANCE METHOD :
-    /* Komponent nesnemizin örneklenmesini ve zincir metodlarının direk kullanılması için hızlı kısa bir örnekleme
-     * metodudur. */
-    public static function new($tagName = 'div'):self{
-        $className = get_called_class();
-        $classExp = explode('\\', $className);
-        $cssName = end($classExp);
-        return new $className($cssName, $tagName);
+    public function id($id):self{
+        $this->id = $id;
+        return $this;
     }
 
 
@@ -183,7 +180,17 @@ abstract class Base
 
 
 
+    private function getCalledClassName():string{
+        $className = get_called_class();
+        $classExp = explode('\\', $className);
+        return end($classExp);
+    }
+
+
+
+
     // ABSTRACT :
+    abstract public static function new($tagName = 'div') : self;
     abstract protected function html($inner = null) : void;
     abstract protected function css() : void;
     abstract protected function javascript() : void;
